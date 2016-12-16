@@ -13,9 +13,9 @@ public class ScoreCollection {
         scores.add(scoreable);
     }
 
-    public int arthmeticMean(){
+    public int arthmeticMean() {
         int total = scores.stream().mapToInt(Scoreable::getScore).sum();
-        return total/ scores.size();
+        return total / scores.size();
     }
 
 }
