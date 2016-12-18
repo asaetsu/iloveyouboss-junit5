@@ -18,7 +18,7 @@ public class ScoreCollectionTest {
         collection.add(() -> 5);
         collection.add(() -> 7);
 
-        int actualResult = collection.arthmeticMean();
+        int actualResult = collection.arithmeticMean();
         assertEquals(actualResult, 6);
 
     }
