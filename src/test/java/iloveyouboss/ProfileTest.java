@@ -61,7 +61,6 @@ class ProfileTest {
                 new Answer(questionOnsiteDaycare, Bool.FALSE);
     }
 
-    // 必須の条件にマッチしない場合、matchesはfalseを返す
     @Test
     public void matchAnswersFalseWhenMustMatchCriteriaNotMet() {
         profile.add(answerDoesNotReimburseTuition);
@@ -73,7 +72,6 @@ class ProfileTest {
         assertFalse(matches);
     }
 
-    // 不問の条件があればmatchesはtrueを返す
     @Test
     public void matchAnswersTrueForAnyDontCareCriteria() {
         profile.add(answerDoesNotReimburseTuition);
@@ -84,7 +82,6 @@ class ProfileTest {
         assertTrue(matches);
     }
 
-    // 重要な条件がすべて合っていたら、matchesはtrueを返す
     @Test
     public void matchAnswersTrueWhenAnyOfMultipleCriteriaMatch() {
         profile.add(answerThereIsRelocation);
@@ -97,7 +94,6 @@ class ProfileTest {
         assertTrue(matches);
     }
 
-    // 重要な条件がすべて合っていなかったら、matchesはfalseを返す
     @Test
     public void matchAnswersFalseWhenNoneOfMultipleCriteriaMatch() {
         profile.add(answerThereIsNoRelocation);
@@ -110,7 +106,6 @@ class ProfileTest {
         assertFalse(matches);
     }
 
-    // 条件にあっていなかったら、スコアは０になる
     @Test
     public void scoreIsZeroWhenThereAreNoMatches() {
         profile.add(answerThereIsNoRelocation);
@@ -121,7 +116,6 @@ class ProfileTest {
         assertEquals(profile.score(), 0);
     }
 
-    // 重要な条件が１つ合っていたら、スコアは重要に設定されているスコアと同じになる
     @Test
     public void scoreIsCriterionValueForSingleMatch() {
         profile.add(answerThereIsRelocation);
@@ -132,7 +126,6 @@ class ProfileTest {
         assertEquals(profile.score(), Weight.Important.getValue());
     }
 
-    // 重要な条件と好ましい条件が合っていたら、スコアは重要と好ましいに設定されているスコアと同じになる
     @Test
     public void scoreAccumulatesCriterionValuesForMatches() {
         profile.add(answerThereIsRelocation);
