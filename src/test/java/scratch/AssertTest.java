@@ -101,4 +101,8 @@ public class AssertTest {
         assertThat(Arrays.asList(new String[] {"a"})).containsExactly("a");
     }
 
+    @Test
+    public void assertDoublesCloseTo() {
+        assertThat(2.32 * 3).isCloseTo(6.96, within(0.0005));
+    }
 }
