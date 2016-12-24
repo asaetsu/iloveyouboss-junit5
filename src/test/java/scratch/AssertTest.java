@@ -4,9 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 public class AssertTest {
 
@@ -73,22 +74,31 @@ public class AssertTest {
     @Test
     public void hasPositiveBalance() {
         account.deposit(50);
-
-        assertTrue(account.hasPositiveBalance());
+        assertThat(account.hasPositiveBalance()).isTrue();
     }
 
     @Test
     public void depositIncreaseBalance() {
         int initialBalance = account.getBalance();
         account.deposit(100);
-        assertTrue(account.getBalance() > initialBalance);
+        assertThat(account.getBalance() > initialBalance).isTrue();
+        assertThat(account.getBalance()).isEqualTo(100);
     }
 
     @Test
     public void throwsWhenWithdrawingTooMuch(){
-        Throwable exception = expectThrows(InsufficientFundsException.class, () -> {
-            account.withdraw(100);
-        });
-        assertEquals("balance only 0", exception.getMessage());
+        assertThatThrownBy(() -> { account.withdraw(100); })
+                .isInstanceOf(InsufficientFundsException.class).hasMessage("balance only 0");
     }
+
+    @Test
+    public void comparesArraysPassing(){
+        assertThat(new String[] {"a", "b"}).containsExactly("a", "b");
+    }
+
+    @Test
+    public void comparesCollectionsPassing() {
+        assertThat(Arrays.asList(new String[] {"a"})).containsExactly("a");
+    }
+
 }
