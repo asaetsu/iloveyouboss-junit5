@@ -83,4 +83,12 @@ public class AssertTest {
         account.deposit(100);
         assertTrue(account.getBalance() > initialBalance);
     }
+
+    @Test
+    public void throwsWhenWithdrawingTooMuch(){
+        Throwable exception = expectThrows(InsufficientFundsException.class, () -> {
+            account.withdraw(100);
+        });
+        assertEquals("balance only 0", exception.getMessage());
+    }
 }
