@@ -158,12 +158,12 @@ class ProfileTest {
         assertThat(ids(answers)).isEqualTo(new int[]{2, 3});
 
         List<Answer> answersComplement =
-                profile.find(a->a.getQuestion().getClass() != PercentileQuestion.class);
+                profile.find(a -> a.getQuestion().getClass() != PercentileQuestion.class);
 
         List<Answer> allAnswers = new ArrayList<Answer>();
         allAnswers.addAll(answersComplement);
         allAnswers.addAll(answers);
 
-        assertThat(ids(allAnswers)).isEqualTo(new int[] { 1, 2, 3 });
+        assertThat(ids(allAnswers)).isEqualTo(new int[]{1, 2, 3});
     }
 }
