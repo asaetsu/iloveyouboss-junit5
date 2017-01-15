@@ -9,6 +9,8 @@
 package iloveyouboss;
 
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Profile {
     // 雇用者や求職者に対する質問の答えが保持される
@@ -55,5 +57,11 @@ public class Profile {
 
     public int score() {
         return score;
+    }
+
+    public List<Answer> find(Predicate<Answer> pred) {
+        return answers.values().stream()
+                .filter(pred)
+                .collect(Collectors.toList());
     }
 }

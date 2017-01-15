@@ -1,9 +1,12 @@
 package iloveyouboss;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
+import java.util.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -139,5 +142,28 @@ class ProfileTest {
 
         int expectedScore = Weight.Important.getValue() + Weight.WouldPrefer.getValue();
         assertEquals(profile.score(), expectedScore);
+    }
+
+    int[] ids(Collection<Answer> answers) {
+        return answers.stream().mapToInt(a -> a.getQuestion().getId()).toArray();
+    }
+
+    @Test
+    public void findAnswersBasedOnPredicate() {
+        profile.add(new Answer(new BooleanQuestion(1, "1"), Bool.FALSE));
+        profile.add(new Answer(new PercentileQuestion(2, "2", new String[]{}), 0));
+        profile.add(new Answer(new PercentileQuestion(3, "3", new String[]{}), 0));
+
+        List<Answer> answers = profile.find(a -> a.getQuestion().getClass() == PercentileQuestion.class);
+        assertThat(ids(answers)).isEqualTo(new int[]{2, 3});
+
+        List<Answer> answersComplement =
+                profile.find(a->a.getQuestion().getClass() != PercentileQuestion.class);
+
+        List<Answer> allAnswers = new ArrayList<Answer>();
+        allAnswers.addAll(answersComplement);
+        allAnswers.addAll(answers);
+
+        assertThat(ids(allAnswers)).isEqualTo(new int[] { 1, 2, 3 });
     }
 }
