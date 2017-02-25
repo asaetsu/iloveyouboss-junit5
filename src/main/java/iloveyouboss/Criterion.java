@@ -34,7 +34,8 @@ public class Criterion implements Scoreable {
         return score;
     }
 
-    public boolean matches(Answer answer) { return getWeight() == Weight.DontCare ||
-            answer.match(getAnswer());
+    public boolean matches(Answer answer) {
+        return getWeight() == Weight.DontCare ||
+                answer.match(getAnswer());
     }
 }
