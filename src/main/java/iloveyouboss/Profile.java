@@ -8,29 +8,38 @@
  ***/
 package iloveyouboss;
 
-public class Profile {
-    private AnswerCollection answers = new AnswerCollection();
-    private String name;
+import java.util.HashMap;
+import java.util.Map;
 
-    public Profile(String name) {
-        this.name = name;
+public class Profile {
+    private Map<String,Answer> answers = new HashMap<>();
+
+    private Answer getMatchingProfileAnswer(Criterion criterion) {
+        return answers.get(criterion.getAnswer().getQuestionText());
     }
 
-    public String getName() {
-        return name;
+    public boolean matches(Criteria criteria) {
+        boolean matches = false;
+        for (Criterion criterion: criteria) {
+            if (matches(criterion))
+                matches = true;
+            else if (criterion.getWeight() == Weight.MustMatch)
+                return false;
+        }
+        return matches;
+    }
+
+    public boolean matches(Criterion criterion) {
+        return
+                criterion.getWeight() == Weight.DontCare ||
+                        criterion.getAnswer().match(getMatchingProfileAnswer(criterion));
     }
 
     public void add(Answer answer) {
-        answers.add(answer);
+        answers.put(answer.getQuestionText(), answer);
     }
 
-    public MatchSet getMatchSet(Criteria criteria) {
-        return new MatchSet(answers, criteria);
-    }
-    // ...
-
-    @Override
-    public String toString() {
-        return name;
+    public ProfileMatch match(Criteria criteria) {
+        return new ProfileMatch();
     }
 }
